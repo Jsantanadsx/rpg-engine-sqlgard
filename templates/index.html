@@ -1,14 +1,99 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 <title>SQLgard RPG</title>
+
+<style>
+
+body{
+background-color:#0f0f0f;
+color:#e0e0e0;
+font-family: "Trebuchet MS", sans-serif;
+text-align:center;
+}
+
+h1{
+color:#ff9933;
+text-shadow:2px 2px 8px #000;
+}
+
+table{
+margin:auto;
+border-collapse:collapse;
+width:60%;
+background:#1a1a1a;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0px 0px 20px rgba(0,0,0,0.8);
+}
+
+th{
+background:#333;
+color:#ff9933;
+padding:10px;
+}
+
+td{
+padding:10px;
+border-bottom:1px solid #444;
+}
+
+/* BOTÕES */
+
+button{
+background:#ff9933;
+color:#111;
+border:none;
+padding:12px 25px;
+font-size:16px;
+border-radius:5px;
+cursor:pointer;
+margin-top:15px;
+}
+
+button:hover{
+background:#ffb366;
+}
+
+/* BARRA DE VIDA */
+
+.hp-bar{
+background:#333;
+width:100%;
+height:18px;
+border-radius:5px;
+overflow:hidden;
+}
+
+.hp-fill{
+height:100%;
+width:0%;
+}
+
+/* CORES DA VIDA */
+
+.hp-high{
+background:#02aa15;
+}
+
+.hp-mid{
+background:#ffff02;
+}
+
+.hp-low{
+background:#e80303;
+}
+
+</style>
+
 </head>
 
 <body>
 
 <h1>Heróis de SQLgard</h1>
 
-<table border="3">
+<table>
 
 <tr>
 <th>Nome</th>
@@ -19,11 +104,26 @@
 
 {% for h in herois %}
 
-<tr>
+<tr class="{% if h[4] == 'MORTO' %}dead{% endif %}">
+
 <td>{{h[0]}}</td>
-<td>{{h[1]}}</td>
-<td>{{h[2]}} / {{h[3]}}</td>
+
+<td>
+⚔️ {{h[1]}}
+</td>
+
+<td>
+
+<div class="hp-bar">
+<div class="hp-fill" data-hp="{{h[2]}}" data-max="{{h[3]}}"></div>
+</div>
+
+{{h[2]}} / {{h[3]}}
+
+</td>
+
 <td>{{h[4]}}</td>
+
 </tr>
 
 {% endfor %}
@@ -33,12 +133,39 @@
 <br>
 
 <a href="/processar">
-<button>Próximo Turno</button>
+<button>⚔️ Próximo Turno</button>
 </a>
 
-<a href="resetar">
-<button>Fogueira</button>
+<a href="/resetar">
+<button>🔥 Fogueira</button>
 </a>
+
+<script>
+
+document.querySelectorAll(".hp-fill").forEach(bar => {
+
+let hp = parseInt(bar.dataset.hp)
+let max = parseInt(bar.dataset.max)
+
+let percent = (hp / max) * 100
+
+bar.style.width = percent + "%"
+
+/* COR DA VIDA */
+
+if(percent > 60){
+bar.classList.add("hp-high")
+}
+else if(percent > 30){
+bar.classList.add("hp-mid")
+}
+else{
+bar.classList.add("hp-low")
+}
+
+})
+
+</script>
 
 </body>
 </html>
