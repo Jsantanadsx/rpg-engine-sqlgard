@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SQLgard RPG</title>
+</head>
+
+<body>
+
+<h1>Heróis de SQLgard</h1>
+
+<table border="3">
+
+<tr>
+<th>Nome</th>
+<th>Classe</th>
+<th>HP</th>
+<th>Status</th>
+</tr>
+
+{% for h in herois %}
+
+<tr>
+<td>{{h[0]}}</td>
+<td>{{h[1]}}</td>
+<td>{{h[2]}} / {{h[3]}}</td>
+<td>{{h[4]}}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+<br>
+
+<a href="/processar">
+<button>Próximo Turno</button>
+</a>
+
+<a href="resetar">
+<button>Fogueira</button>
+</a>
+
+</body>
+</html>
